@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  output   = "./generated/prisma"
 }
 
 datasource db {
@@ -16,9 +16,16 @@ enum typeMessage {
   SMS
 }
 
+enum statusMessage {
+  PENDING
+  SENT
+  FAILED
+}
+
 model Message {
   id        String   @id @default(cuid())
   text      String
   type      typeMessage 
   createdAt DateTime @default(now())
+  status    statusMessage @default(PENDING)
 }

@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dist": "tsup src",
+    "start:dev": "tsx src/server.ts",
+    "start:watch": "tsx watch src/server.ts",
+    "start:dist": "npm run dist && node dist/src/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -12,11 +17,15 @@
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^25.0.3",
-    "prisma": "^7.2.0"
+    "prisma": "^7.2.0",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.2.0",
     "@prisma/client": "^7.2.0",
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.2.3",
+    "pino": "^10.1.0"
   }
 }
