@@ -5,9 +5,9 @@ const TEMPO_ENTRE_MENSAGENS = 20000;
 let sock;
 
 async function startSession() {
-    const { state, saveCreds } = await useMultiFileAuthState('../../../auth_info')
-    const sock1 = makeWASocket({ printQRInTerminal: false, auth: state });
-    sock1.ev.on('creds.update', saveCreds)
+    const { state, saveCreds } = await useMultiFileAuthState('./auth_info')
+    sock =  makeWASocket({ printQRInTerminal: false, auth: state });
+    sock.ev.on('creds.update', saveCreds)
     console.log('Sessão iniciada!')
 }
 
@@ -26,7 +26,6 @@ async function startBot() {
 
         if (connection === 'open') {
             console.log('✅ Conectado com sucesso!');
-            atualizarConexao(true);
         }
 
         if (connection === 'close') {
@@ -39,6 +38,7 @@ async function startBot() {
 }
 
 async function enviarMensagem(texto, numero) {
+    console.log(`Enviando mensagem para ${numero}`);
     await sock.sendPresenceUpdate('composing', numero);
     await new Promise(r => setTimeout(r, 1500));
     await sock.sendMessage(numero, { text: texto });

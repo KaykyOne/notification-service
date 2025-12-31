@@ -1,4 +1,4 @@
-{"level":30,"time":1767206772026,"pid":17420,"hostname":"PCdoKayky","msg":"Application started"}
-{"level":30,"time":1767207310153,"pid":2276,"hostname":"PCdoKayky","msg":"Application started"}
-{"level":30,"time":1767207327733,"pid":11540,"hostname":"PCdoKayky","msg":"Application started"}
-{"level":30,"time":1767208265825,"pid":11600,"hostname":"PCdoKayky","msg":"Application started"}
+{"level":30,"time":1767209910451,"pid":4100,"hostname":"PCdoKayky","msg":"Recebida requisição para enviar mensagem para 5517997419297"}
+{"level":30,"time":1767210026737,"pid":3816,"hostname":"PCdoKayky","msg":"Recebida requisição para enviar mensagem para 5517997419297"}
+{"level":30,"time":1767210109783,"pid":15368,"hostname":"PCdoKayky","msg":"Recebida requisição para enviar mensagem para 5517997419297"}
+{"level":30,"time":1767210113612,"pid":15368,"hostname":"PCdoKayky","msg":"Mensagem enviada para 5517997419297"}
