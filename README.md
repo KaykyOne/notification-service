@@ -1,10 +1,10 @@
-# 📨 Service Mensagens
+# 📨 Notification Service
 
 > Serviço centralizado para envio e gerenciamento de mensagens em múltiplos canais
 
 ## 🎯 Visão Geral
 
-**Service Mensagens** é uma API robusta desenvolvida em Node.js que oferece uma solução unificada para envio de mensagens através de diferentes canais de comunicação:
+**Notification Service** é uma API robusta desenvolvida em Node.js que oferece uma solução unificada para envio de mensagens através de diferentes canais de comunicação:
 
 - 📧 **Email** - Mensagens de correio eletrônico
 - 💬 **SMS** - Mensagens de texto curtas
