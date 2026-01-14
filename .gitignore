@@ -4,3 +4,5 @@ node_modules
 dev.db
 /generated/prisma
 auth_info
+
+/logs/app.log

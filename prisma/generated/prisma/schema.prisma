@@ -23,10 +23,10 @@ enum statusMessage {
 }
 
 model Message {
-  id        String   @id @default(cuid())
+  id        String        @id @default(cuid())
   text      String
-  type      typeMessage 
-  createdAt DateTime @default(now())
+  type      typeMessage
+  createdAt DateTime      @default(now())
   phone     String
   autor     String?
   status    statusMessage @default(PENDING)

@@ -12,7 +12,6 @@
   },
   "author": "",
   "license": "ISC",
-  "type": "module",
   "description": "",
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
