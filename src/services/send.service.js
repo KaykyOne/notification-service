@@ -6,6 +6,7 @@ whatsapp.startBot();
 
 let enviando = false;
 
+
 const formatNumber = (phone) => {
     let phoneFormated = phone;
     phoneFormated = phone.includes('@s.whatsapp.net') ? phone : `${phone}@s.whatsapp.net`;
@@ -39,14 +40,24 @@ const updateStatus = async (id, status) => {
 
 const seeBD = async () => {
     if (enviando) return;
-    console.log('Verificando mensagens pendentes...');
+    // console.log('Verificando mensagens pendentes...');
     try {
         enviando = true;
-        const messages = await prismaManager.message.findMany({
+        const messagesPendentes = await prismaManager.message.findMany({
             where: {
                 status: 'PENDING'
             }
         });
+        // console.log(messagesPendentes);
+
+        const messagesAgendadas = await prismaManager.message.findMany({
+            where: {
+                status: 'SCHEDULED',
+                forAt: { gte: new Date() }
+            }
+        });
+
+        const messages = [...messagesPendentes, ...messagesAgendadas];
         // console.log(messages);
 
         if (messages.length === 0) {
@@ -58,7 +69,7 @@ const seeBD = async () => {
             await whatsapp.enviarMensagem(message.text, message.phone);
             await updateStatus(message.id, 'SENT');
             logger.info(`Mensagem ID ${message.id} enviada com sucesso para ${message.phone}`);
-            await new Promise(r => setTimeout(r, 30000));
+            await new Promise(r => setTimeout(r, 67000));
         }
     } catch (error) {
         logger.error(`Erro ao processar mensagens pendentes: ${error.message}`);
@@ -69,8 +80,8 @@ const seeBD = async () => {
 
 const clearBD = async () => {
     await prismaManager.message.deleteMany({
-        where:{
-            status:'PENDING'
+        where: {
+            status: 'PENDING'
         }
     });
 }

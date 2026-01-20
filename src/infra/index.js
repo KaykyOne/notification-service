@@ -1,6 +1,5 @@
-import { startBot, enviarMensagem, TEMPO_ENTRE_MENSAGENS } from "./whatsapp/index.js";
+import { startBot, enviarMensagem, TEMPO_ENTRE_MENSAGENS } from "./whatsapp/baileys.js";
 
 const whatsapp = { startBot, enviarMensagem, TEMPO_ENTRE_MENSAGENS }
-
 
 export { whatsapp };

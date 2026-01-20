@@ -19,9 +19,9 @@ app.use(compression());
 
 app.use("/api", routes);
 
-app.listen(3001, '0.0.0.0', () => {
+app.listen(3012, '0.0.0.0', () => {
     console.clear();
-    console.log("Servidor rodando em http://0.0.0.0:3001");
+    console.log("Servidor rodando em http://0.0.0.0:3012");
 });
 
 export default app;

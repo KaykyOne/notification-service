@@ -124,7 +124,8 @@ exports.Prisma.MessageScalarFieldEnum = {
   createdAt: 'createdAt',
   phone: 'phone',
   autor: 'autor',
-  status: 'status'
+  status: 'status',
+  forAt: 'forAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -145,7 +146,8 @@ exports.typeMessage = exports.$Enums.typeMessage = {
 exports.statusMessage = exports.$Enums.statusMessage = {
   PENDING: 'PENDING',
   SENT: 'SENT',
-  FAILED: 'FAILED'
+  FAILED: 'FAILED',
+  SCHEDULED: 'SCHEDULED'
 };
 
 exports.Prisma.ModelName = {
