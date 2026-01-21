@@ -1,20 +1,23 @@
 import makeWASocket, { useMultiFileAuthState, DisconnectReason } from '@whiskeysockets/baileys';
 import qrCodeGerator from 'qrcode-terminal';
+import pino from 'pino';
 
 const TEMPO_ENTRE_MENSAGENS = 20000;
 let sock;
 
 async function startSession() {
     const { state, saveCreds } = await useMultiFileAuthState('./auth_info')
-    sock =  makeWASocket({ printQRInTerminal: false, auth: state });
+    sock = makeWASocket({
+        printQRInTerminal: false,
+        logger: pino({ level: "error" }),
+        auth: state
+    });
     sock.ev.on('creds.update', saveCreds)
     console.log('Sessão iniciada!')
 }
 
 async function startBot() {
     await startSession();
-
-
     sock.ev.on('connection.update', (update) => {
         const { connection, lastDisconnect, qr } = update;
         process.on('unhandledRejection', console.error)

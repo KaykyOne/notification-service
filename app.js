@@ -17,7 +17,11 @@ app.use(express.json());
 app.use(helmet());
 app.use(compression());
 
-app.use("/api", routes);
+app.use("/notify", routes);
+
+app.get("/", (req, res) => {
+    res.send("API is running");
+});
 
 app.listen(3012, '0.0.0.0', () => {
     console.clear();
