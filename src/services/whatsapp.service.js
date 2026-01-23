@@ -2,10 +2,9 @@ import { prismaManager } from "../../prisma/prisma.js";
 import { logger } from '../../logs/logger.js'
 import { whatsapp } from "../infra/index.js";
 
-whatsapp.startBot();
+const { TEMPO_ENTRE_MENSAGENS, startBot, enviarMensagem } = whatsapp;
 
 let enviando = false;
-
 
 const formatNumber = (phone) => {
     let phoneFormated = phone;
@@ -66,7 +65,7 @@ const seeBD = async () => {
         }
         console.log(`Encontradas ${messages.length} mensagens pendentes.`);
         for (const message of messages) {
-            await whatsapp.enviarMensagem(message.text, message.phone);
+            await enviarMensagem(message.text, message.phone);
             await updateStatus(message.id, 'SENT');
             logger.info(`Mensagem ID ${message.id} enviada com sucesso para ${message.phone}`);
             await new Promise(r => setTimeout(r, 67000));
@@ -86,6 +85,15 @@ const clearBD = async () => {
     });
 }
 
+const clearSessions = async () => {
+    
+}
+
+const start = async () => {
+    await startBot();
+    console.log('Bot do WhatsApp iniciado.');
+}
+
 setInterval(seeBD, 10000);
 
-export { sendMessageService, clearBD };
+export { sendMessageService, clearBD, clearSessions, start };

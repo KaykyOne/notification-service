@@ -6,7 +6,7 @@ const TEMPO_ENTRE_MENSAGENS = 20000;
 let sock;
 
 async function startSession() {
-    const { state, saveCreds } = await useMultiFileAuthState('./auth_info')
+    const { state, saveCreds } = await useMultiFileAuthState('/sessions/whatsapp-baileys');
     sock = makeWASocket({
         printQRInTerminal: false,
         logger: pino({ level: "error" }),

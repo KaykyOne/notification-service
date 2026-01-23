@@ -1,4 +1,4 @@
-import { sendMessageService, clearBD } from "../services/send.service.js";
+import { sendMessageService, clearBD, clearSessions, start } from "../services/whatsapp.service.js";
 import { logger } from "../../logs/logger.js";
 
 const sendMessage = async (req, res) => {
@@ -24,4 +24,9 @@ const clearMessages = async (req, res) => {
     res.status(200).json({ message: "Todas as mensagens foram excluidas com sucesso!" })
 }
 
-export { sendMessage, clearMessages }
+const startWhatsappBot = async (req, res) => {
+    await start();
+    res.status(200).json({ message: "Bot do WhatsApp iniciado com sucesso!" });
+}
+
+export { sendMessage, clearMessages, startWhatsappBot }

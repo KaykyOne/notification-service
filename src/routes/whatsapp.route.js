@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { sendMessage, clearMessages } from "../controller/whatsapp.controller.js";
+import { sendMessage, clearMessages, startWhatsappBot } from "../controller/whatsapp.controller.js";
 
 const router = Router();
 
 router.post("/", sendMessage);
-      // .delete("/", clearMessages);
+router.post("/start", startWhatsappBot);
+router.delete("/clearAll", clearMessages);
 
 export default router;
