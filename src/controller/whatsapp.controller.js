@@ -1,15 +1,15 @@
-import { sendMessageService, clearBD } from "../services/send.service.js";
+import { sendMessageService, clearBD, clearSessions, start } from "../services/whatsapp.service.js";
 import { logger } from "../../logs/logger.js";
 
 const sendMessage = async (req, res) => {
-    const { text, phone } = req.body;
+    const { text, phone, forAt } = req.body;
 
     if (!text || !phone) {
         res.status(400).json({ message: "As propriedades text ou phone não foram encontradas!" });
     }
     logger.info(`Recebida requisição para enviar mensagem para ${phone}`);
     try {
-        await sendMessageService({ text, phone });
+        await sendMessageService({ text, phone, forAt });
         res.status(200).json({ message: "Mensagem enviada com sucesso!" });
     } catch (error) {
         res.status(500).json({
@@ -24,4 +24,9 @@ const clearMessages = async (req, res) => {
     res.status(200).json({ message: "Todas as mensagens foram excluidas com sucesso!" })
 }
 
-export { sendMessage, clearMessages }
+const startWhatsappBot = async (req, res) => {
+    await start();
+    res.status(200).json({ message: "Bot do WhatsApp iniciado com sucesso!" });
+}
+
+export { sendMessage, clearMessages, startWhatsappBot }

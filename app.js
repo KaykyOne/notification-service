@@ -17,11 +17,15 @@ app.use(express.json());
 app.use(helmet());
 app.use(compression());
 
-app.use("/api", routes);
+app.use("/notify", routes);
 
-app.listen(3001, '0.0.0.0', () => {
+app.get("/", (req, res) => {
+    res.send("API is running");
+});
+
+app.listen(3012, '0.0.0.0', () => {
     console.clear();
-    console.log("Servidor rodando em http://0.0.0.0:3001");
+    console.log("Servidor rodando em http://0.0.0.0:3012");
 });
 
 export default app;

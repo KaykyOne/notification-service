@@ -35,7 +35,8 @@ export type typeMessage = (typeof typeMessage)[keyof typeof typeMessage]
 export const statusMessage: {
   PENDING: 'PENDING',
   SENT: 'SENT',
-  FAILED: 'FAILED'
+  FAILED: 'FAILED',
+  SCHEDULED: 'SCHEDULED'
 };
 
 export type statusMessage = (typeof statusMessage)[keyof typeof statusMessage]
@@ -911,6 +912,7 @@ export namespace Prisma {
     phone: string | null
     autor: string | null
     status: $Enums.statusMessage | null
+    forAt: Date | null
   }
 
   export type MessageMaxAggregateOutputType = {
@@ -921,6 +923,7 @@ export namespace Prisma {
     phone: string | null
     autor: string | null
     status: $Enums.statusMessage | null
+    forAt: Date | null
   }
 
   export type MessageCountAggregateOutputType = {
@@ -931,6 +934,7 @@ export namespace Prisma {
     phone: number
     autor: number
     status: number
+    forAt: number
     _all: number
   }
 
@@ -943,6 +947,7 @@ export namespace Prisma {
     phone?: true
     autor?: true
     status?: true
+    forAt?: true
   }
 
   export type MessageMaxAggregateInputType = {
@@ -953,6 +958,7 @@ export namespace Prisma {
     phone?: true
     autor?: true
     status?: true
+    forAt?: true
   }
 
   export type MessageCountAggregateInputType = {
@@ -963,6 +969,7 @@ export namespace Prisma {
     phone?: true
     autor?: true
     status?: true
+    forAt?: true
     _all?: true
   }
 
@@ -1046,6 +1053,7 @@ export namespace Prisma {
     phone: string
     autor: string | null
     status: $Enums.statusMessage
+    forAt: Date
     _count: MessageCountAggregateOutputType | null
     _min: MessageMinAggregateOutputType | null
     _max: MessageMaxAggregateOutputType | null
@@ -1073,6 +1081,7 @@ export namespace Prisma {
     phone?: boolean
     autor?: boolean
     status?: boolean
+    forAt?: boolean
   }, ExtArgs["result"]["message"]>
 
   export type MessageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1083,6 +1092,7 @@ export namespace Prisma {
     phone?: boolean
     autor?: boolean
     status?: boolean
+    forAt?: boolean
   }, ExtArgs["result"]["message"]>
 
   export type MessageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1093,6 +1103,7 @@ export namespace Prisma {
     phone?: boolean
     autor?: boolean
     status?: boolean
+    forAt?: boolean
   }, ExtArgs["result"]["message"]>
 
   export type MessageSelectScalar = {
@@ -1103,9 +1114,10 @@ export namespace Prisma {
     phone?: boolean
     autor?: boolean
     status?: boolean
+    forAt?: boolean
   }
 
-  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "text" | "type" | "createdAt" | "phone" | "autor" | "status", ExtArgs["result"]["message"]>
+  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "text" | "type" | "createdAt" | "phone" | "autor" | "status" | "forAt", ExtArgs["result"]["message"]>
 
   export type $MessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Message"
@@ -1118,6 +1130,7 @@ export namespace Prisma {
       phone: string
       autor: string | null
       status: $Enums.statusMessage
+      forAt: Date
     }, ExtArgs["result"]["message"]>
     composites: {}
   }
@@ -1548,6 +1561,7 @@ export namespace Prisma {
     readonly phone: FieldRef<"Message", 'String'>
     readonly autor: FieldRef<"Message", 'String'>
     readonly status: FieldRef<"Message", 'statusMessage'>
+    readonly forAt: FieldRef<"Message", 'DateTime'>
   }
     
 
@@ -1930,7 +1944,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     phone: 'phone',
     autor: 'autor',
-    status: 'status'
+    status: 'status',
+    forAt: 'forAt'
   };
 
   export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
@@ -2006,6 +2021,7 @@ export namespace Prisma {
     phone?: StringFilter<"Message"> | string
     autor?: StringNullableFilter<"Message"> | string | null
     status?: EnumstatusMessageFilter<"Message"> | $Enums.statusMessage
+    forAt?: DateTimeFilter<"Message"> | Date | string
   }
 
   export type MessageOrderByWithRelationInput = {
@@ -2016,6 +2032,7 @@ export namespace Prisma {
     phone?: SortOrder
     autor?: SortOrderInput | SortOrder
     status?: SortOrder
+    forAt?: SortOrder
   }
 
   export type MessageWhereUniqueInput = Prisma.AtLeast<{
@@ -2029,6 +2046,7 @@ export namespace Prisma {
     phone?: StringFilter<"Message"> | string
     autor?: StringNullableFilter<"Message"> | string | null
     status?: EnumstatusMessageFilter<"Message"> | $Enums.statusMessage
+    forAt?: DateTimeFilter<"Message"> | Date | string
   }, "id">
 
   export type MessageOrderByWithAggregationInput = {
@@ -2039,6 +2057,7 @@ export namespace Prisma {
     phone?: SortOrder
     autor?: SortOrderInput | SortOrder
     status?: SortOrder
+    forAt?: SortOrder
     _count?: MessageCountOrderByAggregateInput
     _max?: MessageMaxOrderByAggregateInput
     _min?: MessageMinOrderByAggregateInput
@@ -2055,6 +2074,7 @@ export namespace Prisma {
     phone?: StringWithAggregatesFilter<"Message"> | string
     autor?: StringNullableWithAggregatesFilter<"Message"> | string | null
     status?: EnumstatusMessageWithAggregatesFilter<"Message"> | $Enums.statusMessage
+    forAt?: DateTimeWithAggregatesFilter<"Message"> | Date | string
   }
 
   export type MessageCreateInput = {
@@ -2065,6 +2085,7 @@ export namespace Prisma {
     phone: string
     autor?: string | null
     status?: $Enums.statusMessage
+    forAt?: Date | string
   }
 
   export type MessageUncheckedCreateInput = {
@@ -2075,6 +2096,7 @@ export namespace Prisma {
     phone: string
     autor?: string | null
     status?: $Enums.statusMessage
+    forAt?: Date | string
   }
 
   export type MessageUpdateInput = {
@@ -2085,6 +2107,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     autor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumstatusMessageFieldUpdateOperationsInput | $Enums.statusMessage
+    forAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageUncheckedUpdateInput = {
@@ -2095,6 +2118,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     autor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumstatusMessageFieldUpdateOperationsInput | $Enums.statusMessage
+    forAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageCreateManyInput = {
@@ -2105,6 +2129,7 @@ export namespace Prisma {
     phone: string
     autor?: string | null
     status?: $Enums.statusMessage
+    forAt?: Date | string
   }
 
   export type MessageUpdateManyMutationInput = {
@@ -2115,6 +2140,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     autor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumstatusMessageFieldUpdateOperationsInput | $Enums.statusMessage
+    forAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageUncheckedUpdateManyInput = {
@@ -2125,6 +2151,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     autor?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumstatusMessageFieldUpdateOperationsInput | $Enums.statusMessage
+    forAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -2193,6 +2220,7 @@ export namespace Prisma {
     phone?: SortOrder
     autor?: SortOrder
     status?: SortOrder
+    forAt?: SortOrder
   }
 
   export type MessageMaxOrderByAggregateInput = {
@@ -2203,6 +2231,7 @@ export namespace Prisma {
     phone?: SortOrder
     autor?: SortOrder
     status?: SortOrder
+    forAt?: SortOrder
   }
 
   export type MessageMinOrderByAggregateInput = {
@@ -2213,6 +2242,7 @@ export namespace Prisma {
     phone?: SortOrder
     autor?: SortOrder
     status?: SortOrder
+    forAt?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
