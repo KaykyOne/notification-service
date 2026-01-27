@@ -4,7 +4,7 @@ import { sendMessage, clearMessages, startWhatsappBot } from "../controller/what
 const router = Router();
 
 router.post("/", sendMessage);
-router.post("/start", startWhatsappBot);
+router.get("/start", startWhatsappBot);
 router.delete("/clearAll", clearMessages);
 
 export default router;

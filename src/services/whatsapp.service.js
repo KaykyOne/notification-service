@@ -1,6 +1,7 @@
 import { prismaManager } from "../../prisma/prisma.js";
 import { logger } from '../../logs/logger.js'
 import { whatsapp } from "../infra/index.js";
+import { subMinutes } from 'date-fns';
 
 const { TEMPO_ENTRE_MENSAGENS, startBot, enviarMensagem } = whatsapp;
 
@@ -12,17 +13,37 @@ const formatNumber = (phone) => {
     return phoneFormated.startsWith('55') ? phoneFormated : `55${phoneFormated}`;
 }
 
-async function sendMessageService({ text, phone }) {
+async function sendMessageService({ text, phone, forAt }) {
     const numeroFormatado = formatNumber(phone);
+    const dataFormatada = forAt ? new Date(forAt) : null;
+
     try {
-        await prismaManager.message.create({
-            data: {
-                text,
-                phone: numeroFormatado,
-                status: 'PENDING',
-                type: 'WHATSAPP',
-            }
-        })
+
+        if (dataFormatada) {
+            await prismaManager.message.create({
+                data: {
+                    text,
+                    phone: numeroFormatado,
+                    status: 'SCHEDULED',
+                    type: 'WHATSAPP',
+                    forAt: dataFormatada
+                }
+            });
+            logger.info(`Mensagem agendada para ${numeroFormatado} com sucesso.`);
+
+        } else {
+            await prismaManager.message.create({
+                data: {
+                    text,
+                    phone: numeroFormatado,
+                    status: 'PENDING',
+                    type: 'WHATSAPP'
+                }
+            });
+            logger.info(`Mensagem enviada para ${numeroFormatado} com sucesso.`);
+        }
+
+
     } catch (error) {
         console.error('Erro ao enviar mensagem:', error);
         logger.error(`Erro ao enviar mensagem para ${phone}: ${error.message}`);
@@ -52,7 +73,7 @@ const seeBD = async () => {
         const messagesAgendadas = await prismaManager.message.findMany({
             where: {
                 status: 'SCHEDULED',
-                forAt: { gte: new Date() }
+                forAt: { gte: subMinutes(new Date(), 1), lte: new Date() }
             }
         });
 
@@ -86,7 +107,7 @@ const clearBD = async () => {
 }
 
 const clearSessions = async () => {
-    
+
 }
 
 const start = async () => {

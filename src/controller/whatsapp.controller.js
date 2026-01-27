@@ -2,14 +2,14 @@ import { sendMessageService, clearBD, clearSessions, start } from "../services/w
 import { logger } from "../../logs/logger.js";
 
 const sendMessage = async (req, res) => {
-    const { text, phone } = req.body;
+    const { text, phone, forAt } = req.body;
 
     if (!text || !phone) {
         res.status(400).json({ message: "As propriedades text ou phone não foram encontradas!" });
     }
     logger.info(`Recebida requisição para enviar mensagem para ${phone}`);
     try {
-        await sendMessageService({ text, phone });
+        await sendMessageService({ text, phone, forAt });
         res.status(200).json({ message: "Mensagem enviada com sucesso!" });
     } catch (error) {
         res.status(500).json({
