@@ -6,3 +6,5 @@ dev.db
 auth_info
 
 /logs/app.log
+
+/sessions/whatsapp-baileys

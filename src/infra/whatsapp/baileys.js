@@ -1,16 +1,20 @@
 import makeWASocket, { useMultiFileAuthState, DisconnectReason } from '@whiskeysockets/baileys';
 import qrCodeGerator from 'qrcode-terminal';
 import pino from 'pino';
+import fs from "fs";
+import { logger } from '../../../logs/logger.js';
 
 const TEMPO_ENTRE_MENSAGENS = 20000;
 let sock;
 
 // ---- Process handlers (fora de tudo) ----
-process.on('unhandledRejection', console.error);
-process.on('uncaughtException', console.error);
+process.on('unhandledRejection', logger.error);
+process.on('uncaughtException', logger.error);
+
+let tentativasReinicio = 0;
 
 async function startSession() {
-    const { state, saveCreds } = await useMultiFileAuthState('/sessions/whatsapp-baileys');
+    const { state, saveCreds } = await useMultiFileAuthState('./sessions/whatsapp-baileys');
 
     sock = makeWASocket({
         printQRInTerminal: false,
@@ -22,7 +26,7 @@ async function startSession() {
     console.log('Sessão iniciada!');
 }
 
-async function startBot() {
+async function startBot(tentativasReinicioParam = 0) {
     await startSession();
 
     sock.ev.on('connection.update', async (update) => {
@@ -41,8 +45,20 @@ async function startBot() {
                 lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
 
             console.log('❌ Conexão fechada, tentando reconectar...');
-            if (shouldReconnect) startBot();
-            else console.log('🚫 Logout detectado, não será possível reconectar.');
+            tentativasReinicio = tentativasReinicioParam;
+            if (shouldReconnect && tentativasReinicio < 4) {
+                console.log(`🔄 Tentativa de reinício ${tentativasReinicio}/4`);
+                tentativasReinicio++;
+                await sock.ws.close();
+                startBot(tentativasReinicio);
+                return;
+            }
+            else {
+                console.log('🚫 Logout detectado, não será possível reconectar.');
+                await fs.rmSync('./sessions/whatsapp-baileys', { recursive: true, force: true });
+                console.clear();
+                return;
+            }
         }
     });
 }
@@ -57,30 +73,38 @@ async function normalizeWhatsAppNumber(phone) {
 
     const without9 = with9.replace(/^(\d{4})9/, '$1');
 
-    const r1 = await sock.onWhatsApp(with9 + '@s.whatsapp.net');
-    if (r1?.length) return with9;
-
-    const r2 = await sock.onWhatsApp(without9 + '@s.whatsapp.net');
-    if (r2?.length) return without9;
-
-    return null;
+    return { com9: with9, sem9: without9 };
 }
 
 async function enviarMensagem(texto, numero) {
     console.log(`Enviando mensagem para ${numero}`);
 
-    const numeroNormalizado = await normalizeWhatsAppNumber(numero);
-    if (!numeroNormalizado) {
+    const { com9, sem9 } = await normalizeWhatsAppNumber(numero);
+    if (!com9 && !sem9) {
         console.log(`Número inválido: ${numero}`);
         return;
     }
 
-    const jid = numeroNormalizado + '@s.whatsapp.net';
+    for (const n of [com9, sem9]) {
+        if (!n) continue;
 
-    await sock.sendPresenceUpdate('composing', jid);
-    await new Promise(r => setTimeout(r, 1500));
-    await sock.sendMessage(jid, { text: texto });
-    await sock.sendPresenceUpdate('paused', jid);
+        const jid = n + '@s.whatsapp.net';
+
+        try {
+            await sock.sendPresenceUpdate('composing', jid);
+            await new Promise(r => setTimeout(r, 1500));
+            await sock.sendMessage(jid, { text: texto });
+            await sock.sendPresenceUpdate('paused', jid);
+
+            continue;
+        } catch (err) {
+            console.log(`❌ Falhou com ${jid}, tentando outro formato...`);
+        }
+    }
+
+    console.log(`✅ Mensagem enviada para ${numero}`);
+    logger.info(`Mensagem enviada para ${numero}`);
 }
+
 
 export { startBot, enviarMensagem, TEMPO_ENTRE_MENSAGENS };
