@@ -7,7 +7,7 @@ const { TEMPO_ENTRE_MENSAGENS, startBot, enviarMensagem } = whatsapp;
 
 let enviando = false;
 
-const formatNumber = (phone) => {
+function formatNumber(phone) {
     let phoneFormated = phone;
     phoneFormated = phone.includes('@s.whatsapp.net') ? phone : `${phone}@s.whatsapp.net`;
     return phoneFormated.startsWith('55') ? phoneFormated : `55${phoneFormated}`;
@@ -51,14 +51,14 @@ async function sendMessageService({ text, phone, forAt }) {
     }
 }
 
-const updateStatus = async (id, status) => {
+async function updateStatus(id, status) {
     await prismaManager.message.update({
         where: { id },
         data: { status }
     });
 }
 
-const seeBD = async () => {
+async function seeBD() {
     if (enviando) return;
     // console.log('Verificando mensagens pendentes...');
     try {
@@ -73,7 +73,7 @@ const seeBD = async () => {
         const messagesAgendadas = await prismaManager.message.findMany({
             where: {
                 status: 'SCHEDULED',
-                forAt: { gte: subMinutes(new Date(), 1), lte: new Date() }
+                forAt: { lte: new Date() }
             }
         });
 
@@ -98,7 +98,7 @@ const seeBD = async () => {
     }
 }
 
-const clearBD = async () => {
+async function clearBD() {
     await prismaManager.message.deleteMany({
         where: {
             status: 'PENDING'
@@ -106,15 +106,21 @@ const clearBD = async () => {
     });
 }
 
-const clearSessions = async () => {
-
-}
-
-const start = async () => {
+async function start() {
     await startBot();
     console.log('Bot do WhatsApp iniciado.');
 }
 
+async function deleteScheduledMessagesForPhone(phone) {
+    await prismaManager.message.deleteMany({
+        where: {
+            status: 'SCHEDULED',
+            phone: phone,
+            forAt: { lt: new Date() }
+        }
+    });
+}
+
 setInterval(seeBD, 10000);
 
-export { sendMessageService, clearBD, clearSessions, start };
+export { sendMessageService, clearBD, deleteScheduledMessagesForPhone, start };
