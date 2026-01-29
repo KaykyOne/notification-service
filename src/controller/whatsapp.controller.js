@@ -29,4 +29,10 @@ const startWhatsappBot = async (req, res) => {
     res.status(200).json({ message: "Bot do WhatsApp iniciado com sucesso!" });
 }
 
-export { sendMessage, clearMessages, startWhatsappBot }
+const deleteScheduledMessagesForPhone = async (req, res) => {
+    const { phone } = req.params;
+    await deleteScheduledMessagesForPhone(phone);
+    res.status(200).json({ message: `Mensagens agendadas para o telefone ${phone} foram excluídas com sucesso!` });
+}
+
+export { sendMessage, clearMessages, startWhatsappBot, deleteScheduledMessagesForPhone }
