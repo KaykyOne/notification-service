@@ -1,4 +1,4 @@
-import { sendMessageService, clearBD, clearSessions, start } from "../services/whatsapp.service.js";
+import { sendMessageService, clearBD, start } from "../services/whatsapp.service.js";
 import { logger } from "../../logs/logger.js";
 
 const sendMessage = async (req, res) => {
