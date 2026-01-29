@@ -1,4 +1,4 @@
-import { sendMessageService, clearBD, start } from "../services/whatsapp.service.js";
+import { sendMessageService, clearBD, start, deleteScheduledMessagesForPhone } from "../services/whatsapp.service.js";
 import { logger } from "../../logs/logger.js";
 
 const sendMessage = async (req, res) => {
@@ -29,10 +29,10 @@ const startWhatsappBot = async (req, res) => {
     res.status(200).json({ message: "Bot do WhatsApp iniciado com sucesso!" });
 }
 
-const deleteScheduledMessagesForPhone = async (req, res) => {
+const deleteScheduledMessages = async (req, res) => {
     const { phone } = req.params;
     await deleteScheduledMessagesForPhone(phone);
     res.status(200).json({ message: `Mensagens agendadas para o telefone ${phone} foram excluídas com sucesso!` });
 }
 
-export { sendMessage, clearMessages, startWhatsappBot, deleteScheduledMessagesForPhone }
+export { sendMessage, clearMessages, startWhatsappBot, deleteScheduledMessages }
