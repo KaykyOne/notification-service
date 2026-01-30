@@ -1,7 +1,7 @@
 import { prismaManager } from "../../prisma/prisma.js";
 import { logger } from '../../logs/logger.js'
 import { whatsapp } from "../infra/index.js";
-import { subMinutes } from 'date-fns';
+import { tempoHumano, iniciadorAleatorio } from "../common/humanization.js";
 
 const { TEMPO_ENTRE_MENSAGENS, startBot, enviarMensagem } = whatsapp;
 
@@ -86,10 +86,13 @@ async function seeBD() {
         }
         console.log(`Encontradas ${messages.length} mensagens pendentes.`);
         for (const message of messages) {
-            await enviarMensagem(message.text, message.phone);
+            await enviarMensagem(iniciadorAleatorio(), message.phone);
+            await new Promise(r => setTimeout(r, 2000)); // Espera 2 segundos antes de atualizar o status para 'SENT'
             await updateStatus(message.id, 'SENT');
             logger.info(`Mensagem ID ${message.id} enviada com sucesso para ${message.phone}`);
-            await new Promise(r => setTimeout(r, 67000));
+
+            const delay = tempoHumano();
+            await new Promise(r => setTimeout(r, delay));
         }
     } catch (error) {
         logger.error(`Erro ao processar mensagens pendentes: ${error.message}`);
