@@ -12,6 +12,15 @@ async function sendTestEmailService() {
     console.log("E-mail de teste enviado com sucesso!");
 }
 
-export { sendTestEmailService };
+async function send(message, destinatario) {
+    await email.sendMail({
+        from: `"${remetente}" <${process.env.EMAIL_USER}>`,
+        to: destinatario,
+        subject: "Mensagem do Sistema",
+        text: message,
+    });
+}
+
+export { sendTestEmailService, send };
 
 

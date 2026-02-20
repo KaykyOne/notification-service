@@ -2,10 +2,13 @@ import { prismaManager } from "../../prisma/prisma.js";
 import { logger } from '../../logs/logger.js'
 import { whatsapp } from "../infra/index.js";
 import { tempoHumano, iniciadorAleatorio } from "../common/humanization.js";
+import { send } from "./email.service.js";
 
 const { TEMPO_ENTRE_MENSAGENS, startBot, enviarMensagem } = whatsapp;
+const emailWarning = process.env.EMAIL_WARNING;
 
 let enviando = false;
+let startet = false;
 
 function formatNumber(phone) {
     let phoneFormated = phone;
@@ -60,6 +63,7 @@ async function updateStatus(id, status) {
 
 async function seeBD() {
     if (enviando) return;
+    if (!startet) return;
     // console.log('Verificando mensagens pendentes...');
     try {
         enviando = true;
@@ -74,6 +78,10 @@ async function seeBD() {
             where: {
                 status: 'SCHEDULED',
                 forAt: { lte: new Date() }
+            },
+            take: 5,
+            orderBy: {
+                forAt: 'asc'
             }
         });
 
@@ -88,6 +96,7 @@ async function seeBD() {
         for (const message of messages) {
             await enviarMensagem(iniciadorAleatorio(), message.phone);
             await new Promise(r => setTimeout(r, 2000)); // Espera 2 segundos antes de atualizar o status para 'SENT'
+            await enviarMensagem(`${message.text}`, message.phone);
             await updateStatus(message.id, 'SENT');
             logger.info(`Mensagem ID ${message.id} enviada com sucesso para ${message.phone}`);
 
@@ -110,7 +119,9 @@ async function clearBD() {
 }
 
 async function start() {
+    await send('Iniciando Bot', emailWarning);
     await startBot();
+    startet = true;
     console.log('Bot do WhatsApp iniciado.');
 }
 
@@ -125,5 +136,6 @@ async function deleteScheduledMessagesForPhone(phone) {
 }
 
 setInterval(seeBD, 10000);
+
 
 export { sendMessageService, clearBD, deleteScheduledMessagesForPhone, start };
