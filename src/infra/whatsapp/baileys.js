@@ -11,6 +11,8 @@ let sock;
 process.on('unhandledRejection', logger.error);
 process.on('uncaughtException', logger.error);
 
+const emailWarning = process.env.EMAIL_WARNING;
+
 let tentativasReinicio = 0;
 
 async function startSession() {
@@ -55,6 +57,11 @@ async function startBot(tentativasReinicioParam = 0) {
             }
             else {
                 console.log('🚫 Logout detectado, não será possível reconectar.');
+                await sock.ws.close();
+                logger.error('Logout detectado, reinício do bot falhou após 4 tentativas. Verifique a sessão do WhatsApp.');
+                if(emailWarning) {     
+                    await send('Logout detectado, reinício do bot falhou após 4 tentativas. Verifique a sessão do WhatsApp.', emailWarning);
+                }
                 await fs.rmSync('./sessions/whatsapp-baileys', { recursive: true, force: true });
                 console.clear();
                 return;
