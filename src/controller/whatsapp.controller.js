@@ -1,7 +1,7 @@
-import { sendMessageService, clearBD, start, deleteScheduledMessagesForPhone } from "../services/whatsapp.service.js";
+import { sendMessageService, stopWhatsappBotService, clearBD, start, deleteScheduledMessagesForPhone } from "../services/whatsapp.service.js";
 import { logger } from "../../logs/logger.js";
 
-const sendMessage = async (req, res) => {
+async function sendMessage(req, res) {
     const { text, phone, forAt } = req.body;
 
     if (!text || !phone) {
@@ -17,22 +17,27 @@ const sendMessage = async (req, res) => {
             error: error.message
         });
     }
-}
+};
 
-const clearMessages = async (req, res) => {
+async function clearMessages(req, res) {
     await clearBD();
     res.status(200).json({ message: "Todas as mensagens foram excluidas com sucesso!" })
-}
+};
 
-const startWhatsappBot = async (req, res) => {
+async function startWhatsappBot(req, res) {
     await start();
     res.status(200).json({ message: "Bot do WhatsApp iniciado com sucesso!" });
-}
+};
 
-const deleteScheduledMessages = async (req, res) => {
+async function stopWhatsappBot(req, res) {
+    await stopWhatsappBotService();
+    res.status(200).json({ message: "Bot do WhatsApp parado com sucesso!" });
+};
+
+async function deleteScheduledMessages(req, res) {
     const { phone } = req.params;
     await deleteScheduledMessagesForPhone(phone);
     res.status(200).json({ message: `Mensagens agendadas para o telefone ${phone} foram excluídas com sucesso!` });
-}
+};
 
-export { sendMessage, clearMessages, startWhatsappBot, deleteScheduledMessages }
+export { sendMessage, clearMessages, startWhatsappBot, deleteScheduledMessages, stopWhatsappBot }

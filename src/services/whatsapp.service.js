@@ -4,7 +4,7 @@ import { whatsapp } from "../infra/index.js";
 import { tempoHumano, iniciadorAleatorio } from "../common/humanization.js";
 import { send } from "./email.service.js";
 
-const { TEMPO_ENTRE_MENSAGENS, startBot, enviarMensagem, iniciado } = whatsapp;
+const { TEMPO_ENTRE_MENSAGENS, startBot, enviarMensagem, state } = whatsapp;
 const emailWarning = process.env.EMAIL_WARNING;
 
 let enviando = false;
@@ -13,7 +13,7 @@ function formatNumber(phone) {
     let phoneFormated = phone;
     phoneFormated = phone.includes('@s.whatsapp.net') ? phone : `${phone}@s.whatsapp.net`;
     return phoneFormated.startsWith('55') ? phoneFormated : `55${phoneFormated}`;
-}
+};
 
 async function sendMessageService({ text, phone, forAt }) {
     const numeroFormatado = formatNumber(phone);
@@ -51,18 +51,22 @@ async function sendMessageService({ text, phone, forAt }) {
         logger.error(`Erro ao enviar mensagem para ${phone}: ${error.message}`);
         throw new Error('Falha ao enviar mensagem');
     }
-}
+};
 
 async function updateStatus(id, status) {
     await prismaManager.message.update({
         where: { id },
         data: { status }
     });
-}
+};
 
 async function seeBD() {
+    // console.log(enviando);
+    // console.log(state.iniciado);
+
     if (enviando) return;
-    if (!iniciado) return;
+    if (!state.iniciado) return;
+    console.log('Verificando mensagens pendentes...');
     // console.log('Verificando mensagens pendentes...');
     try {
         enviando = true;
@@ -107,7 +111,7 @@ async function seeBD() {
     } finally {
         enviando = false;
     }
-}
+};
 
 async function clearBD() {
     await prismaManager.message.deleteMany({
@@ -115,13 +119,13 @@ async function clearBD() {
             status: 'PENDING'
         }
     });
-}
+};
 
 async function start() {
     await send('Iniciando Bot', emailWarning);
     await startBot();
     console.log('Bot do WhatsApp iniciado.');
-}
+};
 
 async function deleteScheduledMessagesForPhone(phone) {
     await prismaManager.message.deleteMany({
@@ -131,9 +135,15 @@ async function deleteScheduledMessagesForPhone(phone) {
             forAt: { lt: new Date() }
         }
     });
-}
+};
+
+async function stopWhatsappBotService() {
+    await send('Parando Bot', emailWarning);
+    state.iniciado = false;
+    console.log('Bot do WhatsApp parado.');
+};
 
 setInterval(seeBD, 10000);
 
 
-export { sendMessageService, clearBD, deleteScheduledMessagesForPhone, start };
+export { sendMessageService, clearBD, deleteScheduledMessagesForPhone, start, stopWhatsappBotService };

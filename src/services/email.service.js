@@ -1,8 +1,10 @@
 import { email } from "../infra/index.js";
 
 const remetente = process.env.EMAIL_REMETENTE || "teste";
+const dev = process.env.NODE_ENV === 'development';
 
 async function sendTestEmailService() {
+    if(dev) return;
     await email.sendMail({
         from: `"${remetente}" <${process.env.EMAIL_USER}>`,
         to: "kaykyzioti@gmail.com",
@@ -13,6 +15,7 @@ async function sendTestEmailService() {
 }
 
 async function send(message, destinatario) {
+    if(dev) return;
     await email.sendMail({
         from: `"${remetente}" <${process.env.EMAIL_USER}>`,
         to: destinatario,
