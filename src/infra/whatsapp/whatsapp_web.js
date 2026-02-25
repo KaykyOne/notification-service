@@ -22,7 +22,7 @@ let tentativasReinicio = 0;
 async function startSession() {
     client = new Client({
         authStrategy: new LocalAuth({
-            dataPath: './sessions/whatsapp-web.js',
+            dataPath: './sessions/whatsapp-web',
             clientId: 'whatsapp-web-client'
         }),
         puppeteer: {
@@ -82,7 +82,7 @@ async function startBot(tentativasReinicioParam = 0) {
 
     try {
         await client.initialize();
-        console.log('🚀 Bot iniciado com whatsapp-web.js');
+        console.log('🚀 Bot iniciado com whatsapp-web');
     } catch (err) {
         console.error('Erro ao inicializar o cliente:', err);
         logger.error('Erro ao inicializar o cliente: ' + err.message);

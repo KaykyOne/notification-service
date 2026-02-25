@@ -7,4 +7,6 @@ auth_info
 
 /logs/app.log
 
-/sessions/whatsapp-baileys
+
+/sessions
+/.wwebjs_cache
