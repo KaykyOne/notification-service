@@ -4,11 +4,10 @@ import { whatsapp } from "../infra/index.js";
 import { tempoHumano, iniciadorAleatorio } from "../common/humanization.js";
 import { send } from "./email.service.js";
 
-const { TEMPO_ENTRE_MENSAGENS, startBot, enviarMensagem } = whatsapp;
+const { TEMPO_ENTRE_MENSAGENS, startBot, enviarMensagem, iniciado } = whatsapp;
 const emailWarning = process.env.EMAIL_WARNING;
 
 let enviando = false;
-let startet = false;
 
 function formatNumber(phone) {
     let phoneFormated = phone;
@@ -63,7 +62,7 @@ async function updateStatus(id, status) {
 
 async function seeBD() {
     if (enviando) return;
-    if (!startet) return;
+    if (!iniciado) return;
     // console.log('Verificando mensagens pendentes...');
     try {
         enviando = true;
@@ -121,7 +120,6 @@ async function clearBD() {
 async function start() {
     await send('Iniciando Bot', emailWarning);
     await startBot();
-    startet = true;
     console.log('Bot do WhatsApp iniciado.');
 }
 

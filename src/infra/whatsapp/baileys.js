@@ -6,6 +6,7 @@ import { logger } from '../../../logs/logger.js';
 
 const TEMPO_ENTRE_MENSAGENS = 20000;
 let sock;
+let iniciado = false;
 
 // ---- Process handlers (fora de tudo) ----
 process.on('unhandledRejection', logger.error);
@@ -40,9 +41,11 @@ async function startBot(tentativasReinicioParam = 0) {
 
         if (connection === 'open') {
             console.log('✅ Conectado com sucesso!');
+            iniciado = true;
         }
 
         if (connection === 'close') {
+            iniciado = false;
             const shouldReconnect =
                 lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
 
@@ -114,4 +117,4 @@ async function enviarMensagem(texto, numero) {
 }
 
 
-export { startBot, enviarMensagem, TEMPO_ENTRE_MENSAGENS };
+export { startBot, enviarMensagem, TEMPO_ENTRE_MENSAGENS, iniciado };
