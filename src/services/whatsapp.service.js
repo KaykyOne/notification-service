@@ -122,7 +122,7 @@ async function clearBD() {
 };
 
 async function start() {
-    await send('Iniciando Bot', emailWarning);
+    // await send('Iniciando Bot', emailWarning);
     await startBot();
     console.log('Bot do WhatsApp iniciado.');
 };
