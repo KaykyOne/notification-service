@@ -10,6 +10,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const dashboardFilePath = path.resolve(__dirname, "./src/views/html/index.html");
+const dashboardAssetsPath = path.resolve(__dirname, "./src/views");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cors({
 app.use(express.json());
 app.use(helmet());
 app.use(compression());
+app.use("/dashboard-assets", express.static(dashboardAssetsPath));
 
 app.use("/", routes);
 

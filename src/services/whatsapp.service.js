@@ -4,7 +4,7 @@ import { whatsapp } from "../infra/index.js";
 import { tempoHumano, iniciadorAleatorio } from "../common/humanization.js";
 import { send } from "./email.service.js";
 
-const { TEMPO_ENTRE_MENSAGENS, startBot, enviarMensagem, state } = whatsapp;
+const { TEMPO_ENTRE_MENSAGENS, startBot, enviarMensagem, state, destruirSessao, getBotStatus } = whatsapp;
 const emailWarning = process.env.EMAIL_WARNING;
 
 let enviando = false;
@@ -125,6 +125,7 @@ async function start() {
     // await send('Iniciando Bot', emailWarning);
     await startBot();
     console.log('Bot do WhatsApp iniciado.');
+    return getBotStatus();
 };
 
 async function deleteScheduledMessagesForPhone(phone) {
@@ -138,12 +139,32 @@ async function deleteScheduledMessagesForPhone(phone) {
 };
 
 async function stopWhatsappBotService() {
-    await send('Parando Bot', emailWarning);
-    state.iniciado = false;
+    if (emailWarning) {
+        await send('Parando Bot', emailWarning);
+    }
+    await destruirSessao();
     console.log('Bot do WhatsApp parado.');
+    return getBotStatus();
 };
+
+async function connectWhatsappBotService() {
+    await startBot();
+    return getBotStatus();
+}
+
+function getWhatsappBotStatusService() {
+    return getBotStatus();
+}
 
 setInterval(seeBD, 10000);
 
 
-export { sendMessageService, clearBD, deleteScheduledMessagesForPhone, start, stopWhatsappBotService };
+export {
+    sendMessageService,
+    clearBD,
+    deleteScheduledMessagesForPhone,
+    start,
+    stopWhatsappBotService,
+    connectWhatsappBotService,
+    getWhatsappBotStatusService
+};

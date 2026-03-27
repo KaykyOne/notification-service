@@ -1,14 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-     
+    <title>Dashboard do Bot</title>
+    <link rel="stylesheet" href="/dashboard-assets/css/index.css">
 </head>
 <body>
-    <header>
-        <h1>Dashboard</h1>
-    </header>
+    <main class="page">
+        <section class="hero">
+            <p class="eyebrow">Painel do WhatsApp</p>
+            <h1>Controle o bot e acompanhe a conexao em tempo real</h1>
+            <p class="subtitle">
+                Inicie o bot, gere o QR code para pareamento e desconecte a sessao sem sair da pagina.
+            </p>
+        </section>
+
+        <section class="dashboard-card">
+            <div class="status-panel">
+                <div class="status-header">
+                    <div>
+                        <p class="label">Status atual</p>
+                        <h2 id="status-text">Carregando...</h2>
+                    </div>
+                    <span id="status-badge" class="badge badge-neutral">Aguardando</span>
+                </div>
+
+                <div class="status-grid">
+                    <article class="status-item">
+                        <span class="status-item-label">Bot iniciado</span>
+                        <strong id="started-value">Nao</strong>
+                    </article>
+                    <article class="status-item">
+                        <span class="status-item-label">Autenticado</span>
+                        <strong id="auth-value">Nao</strong>
+                    </article>
+                    <article class="status-item">
+                        <span class="status-item-label">Conectado</span>
+                        <strong id="connected-value">Nao</strong>
+                    </article>
+                </div>
+
+                <div class="actions">
+                    <button id="start-button" class="button button-primary" type="button">Iniciar bot</button>
+                    <button id="connect-button" class="button button-secondary" type="button">Conectar</button>
+                    <button id="disconnect-button" class="button button-danger" type="button">Desconectar</button>
+                </div>
+
+                <p id="feedback" class="feedback" aria-live="polite"></p>
+                <p id="disconnect-reason" class="disconnect-reason"></p>
+            </div>
+
+            <div class="qr-panel">
+                <div class="qr-header">
+                    <p class="label">QR code</p>
+                    <p class="qr-help">Quando o WhatsApp pedir autenticacao, escaneie o codigo abaixo.</p>
+                </div>
+
+                <div id="qr-wrapper" class="qr-wrapper qr-empty">
+                    <div id="qr-placeholder" class="qr-placeholder">
+                        O QR code aparecera aqui assim que a conexao for iniciada.
+                    </div>
+                    <div id="qr-grid" class="qr-grid" aria-label="QR code do WhatsApp"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/dashboard-assets/js/index.js" type="module"></script>
 </body>
 </html>
