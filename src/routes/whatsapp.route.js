@@ -1,6 +1,8 @@
 import { Router } from "express";
 import {
     sendMessage,
+    listMessages,
+    deleteMessage,
     clearMessages,
     startWhatsappBot,
     stopWhatsappBot,
@@ -12,6 +14,8 @@ import {
 const router = Router();
 
 router.post("/", sendMessage);
+router.get("/messages", listMessages);
+router.delete("/messages/:id", deleteMessage);
 router.get("/start", startWhatsappBot);
 router.post("/start", startWhatsappBot);
 router.get("/status", getWhatsappBotStatus);

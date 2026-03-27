@@ -10,60 +10,122 @@
     <main class="page">
         <section class="hero">
             <p class="eyebrow">Painel do WhatsApp</p>
-            <h1>Controle o bot e acompanhe a conexao em tempo real</h1>
+            <h1>Operacao do bot e mensagens no mesmo dashboard</h1>
             <p class="subtitle">
-                Inicie o bot, gere o QR code para pareamento e desconecte a sessao sem sair da pagina.
+                Controle a conexao do bot, acompanhe o QR code e gerencie mensagens pendentes ou agendadas sem sair da pagina.
             </p>
         </section>
 
-        <section class="dashboard-card">
-            <div class="status-panel">
-                <div class="status-header">
-                    <div>
-                        <p class="label">Status atual</p>
-                        <h2 id="status-text">Carregando...</h2>
-                    </div>
-                    <span id="status-badge" class="badge badge-neutral">Aguardando</span>
-                </div>
-
-                <div class="status-grid">
-                    <article class="status-item">
-                        <span class="status-item-label">Bot iniciado</span>
-                        <strong id="started-value">Nao</strong>
-                    </article>
-                    <article class="status-item">
-                        <span class="status-item-label">Autenticado</span>
-                        <strong id="auth-value">Nao</strong>
-                    </article>
-                    <article class="status-item">
-                        <span class="status-item-label">Conectado</span>
-                        <strong id="connected-value">Nao</strong>
-                    </article>
-                </div>
-
-                <div class="actions">
-                    <button id="start-button" class="button button-primary" type="button">Iniciar bot</button>
-                    <button id="connect-button" class="button button-secondary" type="button">Conectar</button>
-                    <button id="disconnect-button" class="button button-danger" type="button">Desconectar</button>
-                </div>
-
-                <p id="feedback" class="feedback" aria-live="polite"></p>
-                <p id="disconnect-reason" class="disconnect-reason"></p>
+        <section class="tabs-shell">
+            <div class="tabs">
+                <button class="tab-button is-active" type="button" data-tab-target="bot-tab">Bot e QR code</button>
+                <button class="tab-button" type="button" data-tab-target="messages-tab">Mensagens</button>
             </div>
 
-            <div class="qr-panel">
-                <div class="qr-header">
-                    <p class="label">QR code</p>
-                    <p class="qr-help">Quando o WhatsApp pedir autenticacao, escaneie o codigo abaixo.</p>
-                </div>
+            <section id="bot-tab" class="tab-panel is-active">
+                <div class="dashboard-card">
+                    <div class="status-panel">
+                        <div class="status-header">
+                            <div>
+                                <p class="label">Status atual</p>
+                                <h2 id="status-text">Carregando...</h2>
+                            </div>
+                            <span id="status-badge" class="badge badge-neutral">Aguardando</span>
+                        </div>
 
-                <div id="qr-wrapper" class="qr-wrapper qr-empty">
-                    <div id="qr-placeholder" class="qr-placeholder">
-                        O QR code aparecera aqui assim que a conexao for iniciada.
+                        <div class="status-grid">
+                            <article class="status-item">
+                                <span class="status-item-label">Bot iniciado</span>
+                                <strong id="started-value">Nao</strong>
+                            </article>
+                            <article class="status-item">
+                                <span class="status-item-label">Autenticado</span>
+                                <strong id="auth-value">Nao</strong>
+                            </article>
+                            <article class="status-item">
+                                <span class="status-item-label">Conectado</span>
+                                <strong id="connected-value">Nao</strong>
+                            </article>
+                        </div>
+
+                        <div class="actions">
+                            <button id="start-button" class="button button-primary" type="button">Iniciar bot</button>
+                            <button id="connect-button" class="button button-secondary" type="button">Conectar</button>
+                            <button id="disconnect-button" class="button button-danger" type="button">Desconectar</button>
+                        </div>
+
+                        <p id="feedback" class="feedback" aria-live="polite"></p>
+                        <p id="disconnect-reason" class="disconnect-reason"></p>
                     </div>
-                    <div id="qr-grid" class="qr-grid" aria-label="QR code do WhatsApp"></div>
+
+                    <div class="qr-panel">
+                        <div class="qr-header">
+                            <p class="label">QR code</p>
+                            <p class="qr-help">Quando o WhatsApp pedir autenticacao, escaneie o codigo abaixo.</p>
+                        </div>
+
+                        <div id="qr-wrapper" class="qr-wrapper qr-empty">
+                            <div id="qr-placeholder" class="qr-placeholder">
+                                O QR code aparecera aqui assim que a conexao for iniciada.
+                            </div>
+                            <div id="qr-grid" class="qr-grid" aria-label="QR code do WhatsApp"></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
+
+            <section id="messages-tab" class="tab-panel">
+                <div class="messages-layout">
+                    <section class="message-form-card">
+                        <div class="panel-heading">
+                            <div>
+                                <p class="label">Nova mensagem</p>
+                                <h2>Cadastrar envio</h2>
+                            </div>
+                            <p class="panel-copy">Crie mensagens imediatas ou agendadas para o bot processar.</p>
+                        </div>
+
+                        <form id="message-form" class="message-form">
+                            <label class="field">
+                                <span>Telefone</span>
+                                <input id="phone-input" name="phone" type="text" placeholder="5511999999999" required>
+                            </label>
+
+                            <label class="field field-full">
+                                <span>Mensagem</span>
+                                <textarea id="text-input" name="text" rows="5" placeholder="Digite a mensagem..." required></textarea>
+                            </label>
+
+                            <label class="field">
+                                <span>Agendar para</span>
+                                <input id="for-at-input" name="forAt" type="datetime-local">
+                            </label>
+
+                            <div class="form-actions">
+                                <button id="submit-message-button" class="button button-primary" type="submit">Cadastrar mensagem</button>
+                            </div>
+                        </form>
+
+                        <p id="message-feedback" class="feedback" aria-live="polite"></p>
+                    </section>
+
+                    <section class="message-list-card">
+                        <div class="panel-heading panel-heading-inline">
+                            <div>
+                                <p class="label">Fila do WhatsApp</p>
+                                <h2>Mensagens cadastradas</h2>
+                            </div>
+                            <button id="refresh-messages-button" class="button button-secondary" type="button">Atualizar lista</button>
+                        </div>
+
+                        <div id="messages-empty" class="empty-state">
+                            Nenhuma mensagem cadastrada no momento.
+                        </div>
+
+                        <div id="messages-list" class="messages-list"></div>
+                    </section>
+                </div>
+            </section>
         </section>
     </main>
 

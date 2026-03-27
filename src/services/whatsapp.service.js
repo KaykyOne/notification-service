@@ -53,6 +53,23 @@ async function sendMessageService({ text, phone, forAt }) {
     }
 };
 
+async function listMessagesService() {
+    return prismaManager.message.findMany({
+        where: {
+            type: 'WHATSAPP'
+        },
+        orderBy: [
+            { createdAt: 'desc' }
+        ]
+    });
+}
+
+async function deleteMessageService(id) {
+    await prismaManager.message.delete({
+        where: { id }
+    });
+}
+
 async function updateStatus(id, status) {
     await prismaManager.message.update({
         where: { id },
@@ -161,6 +178,8 @@ setInterval(seeBD, 10000);
 
 export {
     sendMessageService,
+    listMessagesService,
+    deleteMessageService,
     clearBD,
     deleteScheduledMessagesForPhone,
     start,

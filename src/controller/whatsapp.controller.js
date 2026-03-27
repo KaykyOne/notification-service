@@ -1,5 +1,7 @@
 import {
     sendMessageService,
+    listMessagesService,
+    deleteMessageService,
     stopWhatsappBotService,
     clearBD,
     start,
@@ -33,6 +35,11 @@ async function clearMessages(req, res) {
     return res.status(200).json({ message: "Todas as mensagens foram excluidas com sucesso!" });
 }
 
+async function listMessages(req, res) {
+    const messages = await listMessagesService();
+    return res.status(200).json({ data: messages });
+}
+
 async function startWhatsappBot(req, res) {
     const status = await start();
     return res.status(200).json({ message: "Bot do WhatsApp iniciado com sucesso!", data: status });
@@ -54,6 +61,12 @@ async function deleteScheduledMessages(req, res) {
     return res.status(200).json({ message: `Mensagens agendadas para o telefone ${phone} foram excluidas com sucesso!` });
 }
 
+async function deleteMessage(req, res) {
+    const { id } = req.params;
+    await deleteMessageService(id);
+    return res.status(200).json({ message: "Mensagem excluida com sucesso!" });
+}
+
 function getWhatsappBotStatus(req, res) {
     const status = getWhatsappBotStatusService();
     return res.status(200).json({ data: status });
@@ -61,6 +74,8 @@ function getWhatsappBotStatus(req, res) {
 
 export {
     sendMessage,
+    listMessages,
+    deleteMessage,
     clearMessages,
     startWhatsappBot,
     connectWhatsappBot,
