@@ -1,7 +1,7 @@
 import pkg from 'whatsapp-web.js';
 const { Client, LocalAuth, MessageMedia } = pkg;
 import qrCodeGerator from 'qrcode-terminal';
-import { logger } from '../../../logs/logger.js';
+import { logger } from '../../logs/logger.js';
 import { send } from '../../services/email.service.js';
 
 const TEMPO_ENTRE_MENSAGENS = 20000;

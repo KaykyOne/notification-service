@@ -1,5 +1,5 @@
 import { sendMessageService, stopWhatsappBotService, clearBD, start, deleteScheduledMessagesForPhone } from "../services/whatsapp.service.js";
-import { logger } from "../../logs/logger.js";
+import { logger } from "../logs/logger.js";
 
 async function sendMessage(req, res) {
     const { text, phone, forAt } = req.body;
