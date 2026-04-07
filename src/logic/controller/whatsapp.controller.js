@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/controller/whatsapp.controller.js
 import {
     sendMessageService,
     listMessagesService,
@@ -10,6 +11,10 @@ import {
     getWhatsappBotStatusService
 } from "../services/whatsapp.service.js";
 import { logger } from "../../logs/logger.js";
+=======
+import { sendMessageService, stopWhatsappBotService, clearBD, start, deleteScheduledMessagesForPhone } from "../services/whatsapp.service.js";
+import { logger } from "../logs/logger.js";
+>>>>>>> main:src/logic/controller/whatsapp.controller.js
 
 async function sendMessage(req, res) {
     const { text, phone, forAt } = req.body;

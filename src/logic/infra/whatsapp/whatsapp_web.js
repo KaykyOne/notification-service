@@ -1,8 +1,12 @@
 import pkg from 'whatsapp-web.js';
 const { Client, LocalAuth } = pkg;
 import qrCodeGerator from 'qrcode-terminal';
+<<<<<<< HEAD:src/infra/whatsapp/whatsapp_web.js
 import { createRequire } from 'module';
 import { logger } from '../../../logs/logger.js';
+=======
+import { logger } from '../../logs/logger.js';
+>>>>>>> main:src/logic/infra/whatsapp/whatsapp_web.js
 import { send } from '../../services/email.service.js';
 
 const require = createRequire(import.meta.url);
