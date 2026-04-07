@@ -1,0 +1,11 @@
+-- CreateTable
+CREATE TABLE "Message" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "text" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "phone" TEXT NOT NULL,
+    "autor" TEXT,
+    "status" TEXT NOT NULL DEFAULT 'PENDING',
+    "forAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
