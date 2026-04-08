@@ -33,3 +33,10 @@ model Message {
   status    statusMessage @default(PENDING)
   forAt     DateTime @default(now())
 }
+
+model Keys {
+  id        String   @id @default(cuid())
+  value     String
+  createdAt DateTime @default(now())
+  valid    Boolean  @default(true)
+}
