@@ -1,7 +1,7 @@
-import { email } from "../infra/index.js";
+import { email } from "../infra/index.ts";
 import React from "react";
 import { render } from "@react-email/render";
-import BaseEmailTemplate from "../infra/email/templates/baseEmailTemplate.js";
+import BaseEmailTemplate from "../infra/email/templates/baseEmailTemplate.ts";
 
 const remetente = process.env.EMAIL_REMETENTE || "teste";
 const dev = process.env.NODE_ENV === 'development';

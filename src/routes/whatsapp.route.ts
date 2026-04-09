@@ -9,7 +9,7 @@ import {
     deleteScheduledMessages,
     connectWhatsappBot,
     getWhatsappBotStatus
-} from "../controller/whatsapp.controller.js";
+} from "../controller/whatsapp.controller.ts";
 
 const router = Router();
 

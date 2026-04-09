@@ -2,8 +2,8 @@ import makeWASocket, { useMultiFileAuthState, DisconnectReason } from '@whiskeys
 import qrCodeGerator from 'qrcode-terminal';
 import pino from 'pino';
 import fs from "fs";
-import { logger } from '../../logs/logger.js';
-import { send } from '../../services/email.service.js';
+import { logger } from '../../logs/logger.ts';
+import { send } from '../../services/email.service.ts';
 
 const TEMPO_ENTRE_MENSAGENS = 20000;
 let sock;

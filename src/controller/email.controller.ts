@@ -1,4 +1,4 @@
-import { sendTestEmailService, send } from "../services/email.service.js";
+import { sendTestEmailService, send } from "../services/email.service.ts";
 
 async function sendTestEmailController(req, res) {
     await sendTestEmailService();

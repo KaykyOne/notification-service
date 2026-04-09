@@ -1,10 +1,10 @@
-import { sendMessageService, start, stopWhatsappBotService } from "../../logic/services/whatsapp.service.js";
-import { askForMessagePayload } from "../components/MessageForm.js";
+import { sendMessageService, start, stopWhatsappBotService } from "../../services/whatsapp.service.ts";
+import { askForMessagePayload } from "../components/MessageForm.ts";
 import {
     pause,
     printCliHeader,
     printInfo,
-} from "../components/Feedback.js";
+} from "../components/Feedback.ts";
 
 async function clearConsoleAction() {
     console.clear();

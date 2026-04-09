@@ -4,13 +4,13 @@ import {
     startWhatsappBotAction,
     stopWhatsappBotAction,
     submitMessageAction,
-} from "./actions/index.js";
+} from "./actions/index.ts";
 import {
     printCliHeader,
     printSuccess,
     printError,
-} from "./components/Feedback.js";
-import { askForMainMenuAction } from "./components/Menu.js";
+} from "./components/Feedback.ts";
+import { askForMainMenuAction } from "./components/Menu.ts";
 
 const actionHandlers = {
     CLEAR_CONSOLE: clearConsoleAction,

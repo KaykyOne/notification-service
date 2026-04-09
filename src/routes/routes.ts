@@ -1,6 +1,6 @@
 import { Router } from "express";
-import whatsappRoutes from "./whatsapp.route.js";
-import emailRoutes from "./email.route.js";
+import whatsappRoutes from "./whatsapp.route.ts";
+import emailRoutes from "./email.route.ts";
 
 const router = Router();
 

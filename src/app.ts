@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const dashboardFilePath = path.resolve(__dirname, "./src/views/html/index.html");
 const dashboardAssetsPath = path.resolve(__dirname, "./src/views");
-import routes from "./routes/routes.js";
+import routes from "./routes/routes.ts";
 
 const app = express();
 
