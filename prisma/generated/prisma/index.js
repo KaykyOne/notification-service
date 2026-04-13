@@ -101,6 +101,13 @@ exports.Prisma.MessageScalarFieldEnum = {
   forAt: 'forAt'
 };
 
+exports.Prisma.KeysScalarFieldEnum = {
+  id: 'id',
+  value: 'value',
+  createdAt: 'createdAt',
+  valid: 'valid'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -124,7 +131,8 @@ exports.statusMessage = exports.$Enums.statusMessage = {
 };
 
 exports.Prisma.ModelName = {
-  Message: 'Message'
+  Message: 'Message',
+  Keys: 'Keys'
 };
 /**
  * Create the Client
@@ -134,10 +142,10 @@ const config = {
   "clientVersion": "7.2.0",
   "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
   "activeProvider": "sqlite",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n}\n\nenum typeMessage {\n  EMAIL\n  WHATSAPP\n  SMS\n}\n\nenum statusMessage {\n  PENDING\n  SENT\n  FAILED\n  SCHEDULED\n}\n\nmodel Message {\n  id        String        @id @default(cuid())\n  text      String\n  type      typeMessage\n  createdAt DateTime      @default(now())\n  phone     String\n  autor     String?\n  status    statusMessage @default(PENDING)\n  forAt     DateTime      @default(now())\n}\n"
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n}\n\nenum typeMessage {\n  EMAIL\n  WHATSAPP\n  SMS\n}\n\nenum statusMessage {\n  PENDING\n  SENT\n  FAILED\n  SCHEDULED\n}\n\nmodel Message {\n  id        String        @id @default(cuid())\n  text      String\n  type      typeMessage\n  createdAt DateTime      @default(now())\n  phone     String\n  autor     String?\n  status    statusMessage @default(PENDING)\n  forAt     DateTime      @default(now())\n}\n\nmodel Keys {\n  id        String   @id @default(cuid())\n  value     String\n  createdAt DateTime @default(now())\n  valid     Boolean  @default(true)\n}\n"
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Message\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"text\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"typeMessage\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"autor\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"statusMessage\"},{\"name\":\"forAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Message\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"text\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"typeMessage\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"autor\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"statusMessage\"},{\"name\":\"forAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Keys\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"valid\",\"kind\":\"scalar\",\"type\":\"Boolean\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.compilerWasm = {
       getRuntime: async () => require('./query_compiler_bg.js'),

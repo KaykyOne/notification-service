@@ -4,6 +4,7 @@ import {
     startWhatsappBotAction,
     stopWhatsappBotAction,
     submitMessageAction,
+    createAndSendKey
 } from "./actions/index.ts";
 import {
     printCliHeader,
@@ -18,6 +19,7 @@ const actionHandlers = {
     STOP_WHATSAPP_BOT: stopWhatsappBotAction,
     START_WHATSAPP_BOT: startWhatsappBotAction,
     SHUTDOWN: shutdownAction,
+    GENERATE_API_KEY: createAndSendKey
 };
 
 async function startCli() {

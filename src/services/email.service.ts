@@ -2,9 +2,11 @@ import { email } from "../infra/index.ts";
 import React from "react";
 import { render } from "@react-email/render";
 import BaseEmailTemplate from "../infra/email/templates/baseEmailTemplate.ts";
+import env from "../env.ts";
 
-const remetente = process.env.EMAIL_REMETENTE || "teste";
-const dev = process.env.NODE_ENV === 'development';
+const remetente = env.EMAIL_REMETENTE;
+const dev = env.EMAIL_WARNING === "true";
+const rootEmail = env.ROOT_EMAIL;
 
 async function renderEmailTemplate({ title, message }) {
     return render(
@@ -13,6 +15,21 @@ async function renderEmailTemplate({ title, message }) {
             message,
         })
     );
+}
+
+async function sendRootEmailService(message: string) {
+    const html = await renderEmailTemplate({
+        title: "Mensagem para o Administrador",
+        message,
+    });
+
+    await email.sendMail({
+        from: `"${remetente}" <${process.env.EMAIL_USER}>`,
+        to: rootEmail,
+        subject: "Mensagem para o Administrador",
+        text: message,
+        html,
+    });
 }
 
 async function sendTestEmailService() {
@@ -24,7 +41,7 @@ async function sendTestEmailService() {
 
     await email.sendMail({
         from: `"${remetente}" <${process.env.EMAIL_USER}>`,
-        to: "kaykyzioti@gmail.com",
+        to: rootEmail,
         subject: "Teste SMTP",
         text: "Se chegou, funcionou.",
         html,
@@ -48,6 +65,6 @@ async function send(message, destinatario) {
     });
 }
 
-export { sendTestEmailService, send };
+export { sendTestEmailService, send, sendRootEmailService };
 
 

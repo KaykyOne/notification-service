@@ -5,6 +5,7 @@ import {
     printCliHeader,
     printInfo,
 } from "../components/Feedback.ts";
+import { generateKey } from "../../services/key.service.ts";
 
 async function clearConsoleAction() {
     console.clear();
@@ -35,6 +36,10 @@ async function startWhatsappBotAction() {
     return { message: "Bot do WhatsApp iniciado." };
 }
 
+async function createAndSendKey() {
+    await generateKey();
+}
+
 async function shutdownAction() {
     printInfo("Desligando CLI...");
     await pause(1000);
@@ -47,4 +52,5 @@ export {
     startWhatsappBotAction,
     stopWhatsappBotAction,
     submitMessageAction,
+    createAndSendKey,
 };

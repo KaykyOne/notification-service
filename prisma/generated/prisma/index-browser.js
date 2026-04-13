@@ -128,6 +128,13 @@ exports.Prisma.MessageScalarFieldEnum = {
   forAt: 'forAt'
 };
 
+exports.Prisma.KeysScalarFieldEnum = {
+  id: 'id',
+  value: 'value',
+  createdAt: 'createdAt',
+  valid: 'valid'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -151,7 +158,8 @@ exports.statusMessage = exports.$Enums.statusMessage = {
 };
 
 exports.Prisma.ModelName = {
-  Message: 'Message'
+  Message: 'Message',
+  Keys: 'Keys'
 };
 
 /**

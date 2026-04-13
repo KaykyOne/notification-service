@@ -5,6 +5,7 @@ const mainMenuChoices = [
   { name: "2 - Adicionar Mensagem", value: "ADD_MESSAGE" },
   { name: "3 - Parar Bot Whatsapp", value: "STOP_WHATSAPP_BOT" },
   { name: "4 - Iniciar Bot Whatsapp", value: "START_WHATSAPP_BOT" },
+  { name: "5 - Gerar Chave de API", value: "GENERATE_API_KEY" },
   new inquirer.Separator(),
   { name: "0 - Desligar tudo", value: "SHUTDOWN" },
 ];
